@@ -26,6 +26,7 @@ namespace Project_Management.Areas.Identity
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.User.RequireUniqueEmail = false;
+                    options.Password.RequireNonAlphanumeric = false;
                 })
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AuthDbContext>();
