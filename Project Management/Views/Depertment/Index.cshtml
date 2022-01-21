@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Project_Management.Models.Depertment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr style="text-align:center">
+            <th scope="col">
+                Sl No.
+            </th>
+            <th scope="col">
+                Item Name
+            </th>
+            <th scope="col">
+                Created Or Modified By
+            </th>
+            <th scope="col">
+                Created Date
+            </th>
+            <th scope="col">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@{ int i = 0; DateTime dateTime; string identiy;
+    foreach (var item in Model)
+    {
+        i++;
+        dateTime = item.LastModifiedDate ?? item.CreatedDate;
+        identiy = item.LastModifiedBy ?? item.CreatedBy;
+
+        <tr style="text-align:center">
+            <th scope="row">@Html.DisplayFor(modelItem => i)</th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => identiy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+}
+        </tbody>
+</table>

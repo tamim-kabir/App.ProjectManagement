@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Project_Management.Models.Items>
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h2 class="text-center">Items</h2>
+
+<p>
+    <a type="button" class="btn btn-primary active" asp-action="Create">Create New</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr style="text-align:center">
+            <th scope="col">
+                Sl No.
+            </th>
+            <th scope="col">
+                Item Name
+            </th>
+            <th scope="col">
+                DPP Quentity
+            </th>
+            <th scope="col">
+                DPP Price
+            </th>
+            <th scope="col">
+                Description
+            </th>
+            <th scope="col">
+                Created Or Modified By
+            </th>
+            <th scope="col">
+                Created Date
+            </th>
+            <th scope="col">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+@{  int i = 0; DateTime dateTime; string identiy;
+    foreach (var item in Model) {
+        i++;
+        dateTime = item.LastModifiedDate ?? item.CreatedDate;
+        identiy = item.LastModifiedBy ?? item.CreatedBy;
+
+        <tr style="text-align:center">
+            <th scope="row">@Html.DisplayFor(modelItem => i)</th>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DppQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DppPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => identiy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => dateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id  }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+        }
+}
+    </tbody>
+</table>
+
+@*<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DppQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DppPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DppQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DppPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+
+
+
+
+</table>*@
