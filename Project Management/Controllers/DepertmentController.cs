@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project_Management.DataAccess;
 using Project_Management.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Project_Management.Controllers
 {
+    [Authorize]
     public class DepertmentController : Controller
     {
         private readonly DepertmentsRepo _dptRpo;
@@ -25,20 +25,13 @@ namespace Project_Management.Controllers
         public async Task<ActionResult> Index()
         {
             var v = await _dptRpo.GetAllRecords();
-            return View(v.Where(x => x.Status == true));
+            return View(v.AsQueryable().Where(x => x.Status == true));
         }
 
         [HttpGet]
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
-            var list = from p in await _insRepo.GetAllRecords()
-                       select new
-                       {
-                           InstituteId = p.InstituteId,
-                           InstituteName = p.InstituteName
-                       };
 
-            ViewBag.Institute = new SelectList(list, "InstituteId", "InstituteName");
             return View();
         }
 
@@ -48,15 +41,6 @@ namespace Project_Management.Controllers
             depertment.CreatedBy = User.FindFirstValue(ClaimTypes.Name);
             depertment.Status = true;
             depertment.CreatedDate = DateTime.Now;
-
-            var list = from p in await _insRepo.GetAllRecords()
-                       select new
-                       {
-                           InstituteId = p.InstituteId,
-                           InstituteName = p.InstituteName
-                       };
-
-            ViewBag.Institute = new SelectList(list, "InstituteId", "InstituteName");
 
             await _dptRpo.CreateNewRecord(depertment);
             return RedirectToAction("Index");

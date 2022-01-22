@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Project_Management.DataAccess;
 
 namespace Project_Management.Controllers
 {
+    [Authorize]
     public class LabUseItemController : Controller
     {
-        public IActionResult Index()
+        private readonly LabUseItemRepo _labRepo;
+
+        public LabUseItemController(LabUseItemRepo labUseItemRepo)
+        {
+            _labRepo = labUseItemRepo;
+        }
+        public ActionResult Index()
         {
             return View();
         }

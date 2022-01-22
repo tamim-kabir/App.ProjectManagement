@@ -82,6 +82,10 @@ namespace Project_Management.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -133,6 +137,8 @@ namespace Project_Management.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -232,9 +238,6 @@ namespace Project_Management.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("InstituteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -249,9 +252,44 @@ namespace Project_Management.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstituteId");
-
                     b.ToTable("Depertments");
+                });
+
+            modelBuilder.Entity("Project_Management.Models.DepertmentWiseInstitute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DepertmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InstituteID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepertmentId");
+
+                    b.HasIndex("InstituteID");
+
+                    b.ToTable("DepertmentWiseInstitute");
                 });
 
             modelBuilder.Entity("Project_Management.Models.Institute", b =>
@@ -285,9 +323,6 @@ namespace Project_Management.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("InstituteId");
 
                     b.ToTable("Institute");
@@ -306,6 +341,9 @@ namespace Project_Management.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DepertmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -314,6 +352,9 @@ namespace Project_Management.Migrations
 
                     b.Property<int>("DppQty")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemName")
                         .HasColumnType("nvarchar(max)");
@@ -328,6 +369,8 @@ namespace Project_Management.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepertmentId");
 
                     b.ToTable("Items");
                 });
@@ -375,6 +418,18 @@ namespace Project_Management.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LabUseItem");
+                });
+
+            modelBuilder.Entity("Project_Management.Areas.Identity.Data.ProjectManagementUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int?>("InstituteId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("InstituteId");
+
+                    b.HasDiscriminator().HasValue("ProjectManagementUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -428,13 +483,29 @@ namespace Project_Management.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project_Management.Models.Depertment", b =>
+            modelBuilder.Entity("Project_Management.Models.DepertmentWiseInstitute", b =>
+                {
+                    b.HasOne("Project_Management.Models.Depertment", "Depertment")
+                        .WithMany("DepertmentWiseInstitute")
+                        .HasForeignKey("DepertmentId");
+
+                    b.HasOne("Project_Management.Models.Institute", "Institute")
+                        .WithMany("DepertmentWiseInstitute")
+                        .HasForeignKey("InstituteID");
+                });
+
+            modelBuilder.Entity("Project_Management.Models.Items", b =>
+                {
+                    b.HasOne("Project_Management.Models.Depertment", "Depertment")
+                        .WithMany("Items")
+                        .HasForeignKey("DepertmentId");
+                });
+
+            modelBuilder.Entity("Project_Management.Areas.Identity.Data.ProjectManagementUser", b =>
                 {
                     b.HasOne("Project_Management.Models.Institute", "Institute")
-                        .WithMany("Depertment")
-                        .HasForeignKey("InstituteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProjectManagementUser")
+                        .HasForeignKey("InstituteId");
                 });
 #pragma warning restore 612, 618
         }

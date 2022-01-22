@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using Project_Management.Areas.Identity.Data;
 using Project_Management.Models;
 
 namespace Project_Management.Data
@@ -17,11 +17,12 @@ namespace Project_Management.Data
         public DbSet<LabUseItem> LabUseItem { get; set; }
         public DbSet<Items> Items { get; set; }
         public DbSet<Depertment> Depertments { get; set; }
+        public DbSet<ProjectManagementUser> ProjectManagementUser { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            modelBuilder.Entity<Depertment>().HasOne(p => p.Institute)
-                .WithMany(b => b.Depertment).HasForeignKey(b => b.InstituteId);
+
+            //modelBuilder.Entity<Depertment>().HasOne(p => p.Institute)
+            //    .WithMany(b => b.Depertment).HasForeignKey(b => b.InstituteId);
 
             base.OnModelCreating(modelBuilder);
         }

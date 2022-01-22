@@ -9,10 +9,14 @@
 <h4>Items</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div class="form-group">
+                <label asp-for="ItemName" class="control-label">Item Name</label>
+                <input asp-for="ItemName" class="form-control" required/>
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="DppQty" class="control-label">DPP Quentity</label>
                 <input asp-for="DppQty" class="form-control" />
@@ -23,16 +27,21 @@
                 <input asp-for="DppPrice" class="form-control" />
                 <span asp-validation-for="DppPrice" class="text-danger"></span>
             </div>
+            <select asp-for="DepertmentId" class="form-control" asp-items="@ViewBag.DeptDropDown" required>
+                <option value="">
+                    Select Option
+                </option>
+            </select>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Description</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            @*<div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
                 </label>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

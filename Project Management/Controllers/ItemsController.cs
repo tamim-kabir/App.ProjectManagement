@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Project_Management.DataAccess;
 using Project_Management.Models;
 using System;
@@ -13,20 +14,30 @@ namespace Project_Management.Controllers
     public class ItemsController : Controller
     {
         private readonly ItemsRepo _itemsRepo;
-        public ItemsController(ItemsRepo itemsRepo)
+        private readonly DepertmentsRepo _dptRpo;
+
+        public ItemsController(ItemsRepo itemsRepo, DepertmentsRepo depertmentsRepo)
         {
             this._itemsRepo = itemsRepo;
+            this._dptRpo = depertmentsRepo;
         }
-        
+
         public async Task<ActionResult> Index()
         {
             var v = await _itemsRepo.GetAllRecords();
 
-            return View(v.Where(x => x.Status == true));
+            return View(v.AsQueryable().Where(x => x.Status == true));
         }
 
         public async Task<ActionResult> Create()
         {
+            var list = from p in await _dptRpo.GetAllRecords()
+                       select new
+                       {
+                           UserId = p.Id,
+                           UserName = p.Name
+                       };
+            ViewBag.DeptDropDown = new SelectList(list, "UserId", "UserName");
             return View();
         }
 
@@ -36,6 +47,14 @@ namespace Project_Management.Controllers
             item.CreatedBy = User.FindFirstValue(ClaimTypes.Name);
             item.Status = true;
             item.CreatedDate = DateTime.Now;
+            var list = from p in await _dptRpo.GetAllRecords()
+                       select new
+                       {
+                           UserId = p.Id,
+                           UserName = p.Name
+                       };
+            ViewBag.DeptDropDown = new SelectList(list, "UserId", "UserName");
+
             await _itemsRepo.CreateNewRecord(item);
             return RedirectToAction("Index");
         }
@@ -47,8 +66,15 @@ namespace Project_Management.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
+            var list = from p in await _dptRpo.GetAllRecords()
+                       select new
+                       {
+                           UserId = p.Id,
+                           UserName = p.Name
+                       };
+            ViewBag.DeptDropDown = new SelectList(list, "UserId", "UserName");
 
-            return View(await _itemsRepo.GetRecordById(id)); 
+            return View(await _itemsRepo.GetRecordById(id));
         }
 
         [HttpPost]
@@ -58,10 +84,19 @@ namespace Project_Management.Controllers
             item.LastModifiedBy = User.FindFirstValue(ClaimTypes.Name);
             await _itemsRepo.UpdateRecord(item);
 
+            var list = from p in await _dptRpo.GetAllRecords()
+                       select new
+                       {
+                           UserId = p.Id,
+                           UserName = p.Name
+                       };
+            ViewBag.DeptDropDown = new SelectList(list, "UserId", "UserName");
+
+
             return RedirectToAction("Index");
         }
 
- 
+
         public async Task<ActionResult> Delete(int id)
         {
             return View(await _itemsRepo.GetRecordById(id));

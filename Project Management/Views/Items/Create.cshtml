@@ -9,7 +9,7 @@
 <h4>Items</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-7">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
@@ -29,6 +29,11 @@
                     <span asp-validation-for="DppPrice" class="text-danger"></span>
                 </div>
             </div>
+            <select asp-for="DepertmentId" class="form-control" asp-items="@ViewBag.DeptDropDown" required>
+                <option value="">
+                    Select Option
+                </option>
+            </select>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Description</label>
                 <textarea asp-for="Description" class="form-control"></textarea>

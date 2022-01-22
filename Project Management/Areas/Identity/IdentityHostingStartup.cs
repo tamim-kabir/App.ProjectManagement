@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Project_Management.Areas.Identity.Data;
 using Project_Management.Data;
 
 [assembly: HostingStartup(typeof(Project_Management.Areas.Identity.IdentityHostingStartup))]
@@ -19,7 +19,7 @@ namespace Project_Management.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AuthDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options =>
+                services.AddDefaultIdentity<ProjectManagementUser>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireLowercase = false;

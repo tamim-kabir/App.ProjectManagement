@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Project_Management.Areas.Identity.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_Management.Models
 {
@@ -12,7 +11,7 @@ namespace Project_Management.Models
         public string InstituteName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public string UserId { get; set; }
-        public List<Depertment> Depertment { get; set; }
+        public List<ProjectManagementUser> ProjectManagementUser { get; set; }
+        public List<DepertmentWiseInstitute> DepertmentWiseInstitute { get; set; }
     }
 }

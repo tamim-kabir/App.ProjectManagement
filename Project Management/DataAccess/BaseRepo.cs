@@ -19,6 +19,8 @@ namespace Project_Management.DataAccess
         public async Task<IEnumerable<T>> GetAllRecords()
             => await _Context.Set<T>().ToListAsync();
 
+        public IQueryable<T> GetAllIQueryable()
+            => _ContextSet.AsNoTracking();
 
         public async Task<T> GetRecordById(int id)
             => await _ContextSet.FindAsync(id);

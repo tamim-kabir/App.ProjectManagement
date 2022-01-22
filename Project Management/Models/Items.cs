@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_Management.Models
@@ -13,5 +14,10 @@ namespace Project_Management.Models
         [Column(TypeName = "decimal(18,4)")]
         public decimal DppPrice { get; set; }
         public string Description { get; set; }
+        public string ImagePath { get; set; }
+        public int? DepertmentId { get; set; }
+
+        [ForeignKey("DepertmentId")]
+        public List<Depertment> Depertment { get; set; }
     }
 }

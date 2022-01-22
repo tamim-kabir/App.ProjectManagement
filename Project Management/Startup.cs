@@ -22,6 +22,7 @@ namespace Project_Management
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            //services.AddIdentityCore<ProjectManagementUser>();
 
             services.AddHttpContextAccessor();
             services.AddScoped(typeof(IBaseRepo<>), typeof(BaseRepo<,>));
