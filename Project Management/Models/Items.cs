@@ -16,8 +16,7 @@ namespace Project_Management.Models
         public string Description { get; set; }
         public string ImagePath { get; set; }
         public int? DepertmentId { get; set; }
-
         [ForeignKey("DepertmentId")]
-        public List<Depertment> Depertment { get; set; }
+        public Depertment Depertment { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "UploadsExcelSheet";
+}
+
+
+
+<h2 class="text-center">Upload Excel File</h2>
+
+@*<form enctype="multipart/form-data" src="//UploadsExcelSheetCreate" method="post">
+    <input type="file" name="file" />
+    <button type="submit">Done</button>
+</form>*@
+@using (Html.BeginForm("UploadsExcelSheetCreate", "Items", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>Excel file</td>
+            <td>
+                <input type="file" name="FileUpload" />
+            </td>
+        </tr>
+        <tr>
+        <td>
+        </td>
+        <td>
+            <input type="submit" id="Submit" name="Submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}
+

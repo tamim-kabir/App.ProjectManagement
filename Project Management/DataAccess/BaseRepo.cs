@@ -25,11 +25,10 @@ namespace Project_Management.DataAccess
         public async Task<T> GetRecordById(int id)
             => await _ContextSet.FindAsync(id);
 
-        public async Task<T> CreateNewRecord(T model)
+        public async Task CreateNewRecord(T model)
         {
             await _ContextSet.AddAsync(model);
             await _Context.SaveChangesAsync();
-            return model;
         }
 
         public async Task<T> UpdateRecord(T model)

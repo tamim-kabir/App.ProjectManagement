@@ -9,7 +9,7 @@ namespace Project_Management.DataAccess.Interfaces
         Task<IEnumerable<T>> GetAllRecords();
         IQueryable<T> GetAllIQueryable();
         Task<T> GetRecordById(int id);
-        Task<T> CreateNewRecord(T model);
+        Task CreateNewRecord(T model);
         Task<T> UpdateRecord(T model);
         Task<T> DeleteRecord(int id);
         Task<bool> SaveChange();
